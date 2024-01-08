@@ -3,14 +3,20 @@ import { getSignedUrl, uploadFile } from "../../services/api";
 function Home() {
   const [url, setUrl] = useState("");
   const [file, setFile] = useState("");
+  const [err, setError] = useState("");
 
   const fileInputRef = useRef();
 
   useEffect(() => {
     const getData = async () => {
+    try{
       const response = await getSignedUrl();
       console.log(response.url);
       setUrl(response.url);
+    }
+    catch(err){
+      setError(err.message)
+    }
     };
     getData();
   }, []);
@@ -28,7 +34,7 @@ function Home() {
       <div className="h-screen">
         <div className=" mt-10 lg:w-[900px]  bg-slate-200 mx-auto  ">
           <div className="card-body p-10">
-            <h1 className="text-2xl font-bold">File Buddy</h1>
+            <h1 className="text-2xl font-bold">File Buddy {err}</h1>
             <p className="mt-3">
               Convenient file sharing in three steps without registration.
             </p>
